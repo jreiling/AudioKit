@@ -53,6 +53,8 @@ public class Settings: NSObject {
 
     /// Default audio format
     public static let defaultAudioFormat: AVAudioFormat = {
+
+        #if !os(tvOS)
         if #available(iOS 18.0, *) {
             if !ProcessInfo.processInfo.isMacCatalystApp && !ProcessInfo.processInfo.isiOSAppOnMac {
                 /// Default AVAudioFormat for iOS 18 and newer (not on Mac)
@@ -64,6 +66,7 @@ public class Settings: NSObject {
             /// Default AVAudioFormat for macOS 15 and newer
             return AVAudioFormat(standardFormatWithSampleRate: 48_000, channels: 2) ?? AVAudioFormat()
         }
+        #endif
 
         /// Fallback default
         return AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 2) ?? AVAudioFormat()
